@@ -1,0 +1,58 @@
+syntax = "proto3";
+package event;
+
+service EventManager {
+    rpc MakeEvent(MakeEventRequest) returns (MakeEventResponse);
+    rpc GetEvent(GetEventRequest) returns (GetEventResponse);
+    rpc DeleteEvent(DeleteEventRequest) returns (DeleteEventResponse);
+    rpc GetEvents(GetEventsRequest) returns (stream GetEventsResponse);
+}
+
+message MakeEventRequest {
+    int64 senderID = 1;
+    int64 time = 2;
+    string name = 3;
+}
+
+message MakeEventResponse {
+    int64 eventID= 1;
+}
+
+message GetEventRequest {
+    int64 senderID = 1;
+    int64 eventID = 2;
+}
+
+message DeleteEventRequest {
+    int64 senderID = 1;
+    int64 eventID = 2;
+}
+
+message GetEventResponse {
+    int32 status = 1;
+    string error_message = 2;
+    Event event = 3;
+}
+
+message DeleteEventResponse {
+    int32 status = 1;
+    string error_message = 2;
+}
+
+message GetEventsRequest {
+    int64 senderID = 1;
+    int64 from_time = 2;
+    int64 to_time = 3;
+}
+
+message GetEventsResponse
+{
+    repeated Event events = 1;
+}
+
+message Event {
+    int64 senderID = 1;
+    int64 eventID = 2;
+    int64 time = 3;
+    string name = 4;
+}
